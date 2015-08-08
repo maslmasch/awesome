@@ -1,0 +1,98 @@
+#! /bin/bash 
+
+foo="xrandr --output"
+
+echo "Which device do you want to change?"
+select device in "HDMI-3" "DVI-1" "cancel"; do
+    case $device in 
+        HDMI-3 ) foo="$foo HDMI-3 " ;choice=0; break;;
+        DVI-1 ) foo="$foo DVI-1 " ;choice=1; break;;
+        cancel ) exit;;
+    esac
+done
+echo "Choose a mode."
+
+if [ "$choice" == 0 ];
+then
+    select mode in "1920x1080" "1920x1080i" "1680x1050" "1280x1024" "1440x900" "1280x960" "1280x800" "1152x864" "1280x720" "1024x768" "832x624" "800x600" "720x576" "720x576i" "720x480" "720x480i" "640x480" "720x400"  "off" "cancel"; do
+        case $mode in
+            1920x1080 ) foo="$foo --mode 1920x1080"; break;;
+            1920x1080i ) foo="$foo --mode 1920x1080i"; break;;
+            1680x1050 ) foo="$foo --mode 1680x1050"; break;;
+            1280x1024 ) foo="$foo --mode 1280x1024"; break;;
+            1440x900 ) foo="$foo --mode 1440x900"; break;;
+            1280x960 ) foo="$foo --mode 1280x960"; break;;
+            1280x800 ) foo="$foo --mode 1280x800"; break;;
+            1152x864 ) foo="$foo --mode 1152x864"; break;;
+            1280x720 ) foo="$foo --mode 1280x720"; break;;
+            1024x768 ) foo="$foo --mode 1024x768"; break;;
+            832x624 ) foo="$foo --mode 832x624"; break;;
+            800x600 ) foo="$foo --mode 800x600"; break;;
+            720x576 ) foo="$foo --mode 720x576"; break;;
+            720x576i ) foo="$foo --mode 720x576i"; break;;
+            720x480 ) foo="$foo --mode 720x480"; break;;
+            720x480i ) foo="$foo --mode 720x480i"; break;;
+            640x480 ) foo="$foo --mode 640x480"; break;;
+            720x400 ) foo="$foo --mode 720x400"; break;;
+            off ) foo="$foo --off";miau=1; break;;
+            cancel ) exit;;
+        esac
+    done
+fi
+
+if [ "$choice" == 1 ];
+then
+    select mode in "1680x1050" "1280x1024" "1440x900" "1280x960" "1152x864" "1280x720" "1024x768" "800x600" "640x480" "720x400"  "off" "cancel"; do
+        case $mode in
+            1680x1050 ) foo="$foo --mode 1680x1050"; break;;
+            1280x1024 ) foo="$foo --mode 1280x1024"; break;;
+            1440x900 ) foo="$foo --mode 1440x900"; break;;
+            1280x960 ) foo="$foo --mode 1280x960"; break;;
+            1152x864 ) foo="$foo --mode 1152x864"; break;;
+            1280x720 ) foo="$foo --mode 1280x720"; break;;
+            1024x768 ) foo="$foo --mode 1024x768"; break;;
+            800x600 ) foo="$foo --mode 800x600"; break;;
+            640x480 ) foo="$foo --mode 640x480"; break;;
+            720x400 ) foo="$foo --mode 720x400"; break;;
+            off ) foo="$foo --off";miau=1; break;;
+            cancel ) exit;;
+        esac
+    done
+fi
+if [ "$miau" == "1" ] 
+then
+    $foo
+    exit
+fi
+echo "Where do you want it?"
+select loc in "right-of" "left-of" "above" "below" "cancel"; do
+    case $loc in
+        right-of ) foo="$foo --right-of"; break;;
+        left-of ) foo="$foo --left-of"; break;;
+        above ) foo="$foo --above"; break;;
+        below ) foo="$foo --below"; break;;
+        cancel ) exit;;
+    esac
+done
+echo "Corresponding to which device?"
+
+if [ "$choice" == 0 ];
+then
+    select port in "DVI-1"  "off" "cancel"; do
+        case $port in
+            DVI-1 ) foo="$foo DVI-1"; break;;
+            cancel ) exit;;
+        esac
+    done
+fi
+
+if [ "$choice" == 1 ];
+then
+    select port in "HDMI-3"  "off" "cancel"; do
+        case $port in
+            HDMI-3 ) foo="$foo HDMI-3"; break;;
+            cancel ) exit;;
+        esac
+    done
+fi
+$foo
