@@ -62,14 +62,24 @@ editor_cmd = terminal .. " -e sudo " .. editor
 modkey = "Mod4"
 
 
+function run_once(cmd)
+    findme = cmd
+    firstspace = cmd:find(" ")
+    if firstspace then
+        findme = cmd:sub(0, firstspace-1)
+    end
+    awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
+end
+
 -- loading the Xresources for URxvt
 awful.util.spawn_with_shell(terminal .. " -e xrdb ~/.Xresources" )
 
 -- unagi compositing manager for true transparency for  urxvt
-awful.util.spawn_with_shell("unagi &")
+--awful.util.spawn_with_shell("unagi &")
+run_once("unagi")
 -- spawning conky because why not
-awful.util.spawn_with_shell("conky &")
-
+--awful.util.spawn_with_shell("conky &")
+run_once("conky")
 
 
 -- Counter for controlling screen brigthness
