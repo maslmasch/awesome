@@ -433,7 +433,10 @@ globalkeys = awful.util.table.join(
 
     awful.key({ modkey,           }, "F1",    function () awful.screen.focus(2)        end),
     awful.key({ modkey,           }, "F2",    function () awful.screen.focus(1)        end),
-   
+    awful.key({ modkey, "Control" }, "Left",  function () awful.screen.focus_bydirection("left") end),
+    awful.key({ modkey, "Control" }, "Right", function () awful.screen.focus_bydirection("right") end),
+
+
     awful.key({ modkey,           }, "F10",   function () toggle_conky() end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
@@ -450,15 +453,16 @@ globalkeys = awful.util.table.join(
               end),
 
     --Multimedia Keys
-    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("amixer set Master 3%+", false) 
-
-    vicious.force({volwidget}) 
-    end),
-    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("amixer set Master 3%-", false)
-    
-    vicious.force({volwidget}) 
-    end),    
-    awful.key({ }, "XF86AudioMute", function () awful.util.spawn("amixer set Master toggle", false) vicious.force({volwidget}) end),
+    awful.key({ modkey,  }, "Up",
+        function ()
+            awful.util.spawn("amixer set Master 3%+", false)  vicious.force({volwidget}) 
+        end),
+    awful.key({ modkey,  }, "Down",
+        function ()
+            awful.util.spawn("amixer set Master 3%-", false)
+            vicious.force({volwidget}) 
+        end),    
+--    awful.key({ modkey,  }, "m", function () awful.util.spawn("amixer set Master toggle", false) vicious.force({volwidget}) end),
     awful.key({ }, "XF86MonBrightnessUp",
               function ()
 	         if brightness_counter==1 then 
